@@ -16,23 +16,55 @@ import java.net.URLConnection;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The type View movie search.
+ */
 public class ViewMovieSearch extends JPanel implements Observer {
 
+    /**
+     * The Modele.
+     */
     Movie modele;
 
+    /**
+     * The Titre film.
+     */
     JLabel titreFilm;
 
+    /**
+     * The Genre film.
+     */
     JLabel genreFilm;
 
+    /**
+     * The Synopsis film.
+     */
     JTextArea synopsisFilm;
 
+    /**
+     * The Affiche film.
+     */
     ImageIcon afficheFilm = new ImageIcon();
 
+    /**
+     * The Year film.
+     */
     JLabel yearFilm;
+    /**
+     * The Note film.
+     */
     JLabel noteFilm;
 
+    /**
+     * The J panel participants.
+     */
     public JPanel jPanelParticipants;
 
+    /**
+     * Instantiates a new View movie search.
+     *
+     * @param modele the modele
+     */
     public ViewMovieSearch(Movie modele) {
         this.modele = modele;
         titreFilm = new JLabel(modele.getTitle());
@@ -126,7 +158,7 @@ public class ViewMovieSearch extends JPanel implements Observer {
         jPanelEAST.add(jScrollPane);
         JPanel ouest = new JPanel(new BorderLayout());
         JLabel pic = new JLabel(this.afficheFilm);
-        ControllerListOfMoviesAffiche ctlr = new ControllerListOfMoviesAffiche(this.modele,pic);
+        ControllerListOfMoviesAffiche ctlr = new ControllerListOfMoviesAffiche(this.modele, pic);
         pic.addMouseListener(ctlr);
         ouest.add(pic, BorderLayout.CENTER);
 
@@ -153,6 +185,9 @@ public class ViewMovieSearch extends JPanel implements Observer {
         container.add(button, c);
     }
 
+    /**
+     * Update image.
+     */
     void updateImage() {
         BufferedImage image;
         try {
@@ -163,7 +198,7 @@ public class ViewMovieSearch extends JPanel implements Observer {
             this.afficheFilm.setImage(image);
         } catch (IOException e) {
             try {
-                image = ImageIO.read(new File("D:\\Cours_IDMC\\ProjetJava\\src\\com\\image_not_found.png"));
+                image = ImageIO.read(new File("src/com/img/image_not_found.png"));
                 this.afficheFilm.setImage(image);
             } catch (IOException ioException) {
                 ioException.printStackTrace();

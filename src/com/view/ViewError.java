@@ -5,8 +5,16 @@ import com.controller.ControllerViewError;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * The type View error.
+ */
 public class ViewError extends JFrame {
 
+    /**
+     * Instantiates a new View error.
+     *
+     * @param message the message
+     */
     public ViewError(String message) {
         JPanel jPanel = new JPanel(new BorderLayout());
         JTextArea jTextArea = new JTextArea(message);

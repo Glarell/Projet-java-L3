@@ -1,6 +1,7 @@
 package com.modele;
 
 import com.activerecord.ConnectionSingleton;
+import com.view.ViewError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -16,7 +17,7 @@ public class Participants extends Modele {
     /**
      * The Liste p.
      */
-    ArrayList<Participants.Participant> listeP = new ArrayList<>();
+    ArrayList<Participant> listeP = new ArrayList<>();
 
     /**
      * Instantiates a new Participants.
@@ -67,47 +68,6 @@ public class Participants extends Modele {
      */
     public ArrayList<Participant> getListeP() {
         return listeP;
-    }
-
-    /**
-     * The type Participant.
-     */
-    public class Participant {
-
-        private final String name;
-
-        private final String role;
-
-        /**
-         * Instantiates a new Participant.
-         *
-         * @param name the name
-         * @param role the role
-         */
-        public Participant(String name, String role) {
-            this.name = name;
-            this.role = role;
-        }
-
-
-        /**
-         * Gets name.
-         *
-         * @return the name
-         */
-        public String getName() {
-            return name;
-        }
-
-        /**
-         * Gets role.
-         *
-         * @return the role
-         */
-        public String getRole() {
-            return role;
-        }
-
     }
 
 }

@@ -8,10 +8,21 @@ import java.awt.*;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The type View list of movies search.
+ */
 public class ViewListOfMoviesSearch extends JPanel implements Observer {
 
+    /**
+     * The Modele.
+     */
     ListOfMoviesSearch modele;
 
+    /**
+     * Instantiates a new View list of movies search.
+     *
+     * @param modele the modele
+     */
     public ViewListOfMoviesSearch(ListOfMoviesSearch modele) {
         this.modele = modele;
         this.setLayout(new GridBagLayout());

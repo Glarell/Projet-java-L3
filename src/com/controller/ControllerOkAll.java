@@ -10,12 +10,27 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Controller ok all.
+ */
 public class ControllerOkAll implements ActionListener {
 
 
+    /**
+     * The Modele.
+     */
     ListOfMoviesSearch modele;
+    /**
+     * The View.
+     */
     ViewMovie view;
 
+    /**
+     * Instantiates a new Controller ok all.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerOkAll(ListOfMoviesSearch modele, ViewMovie view) {
         this.modele = modele;
         this.view = view;

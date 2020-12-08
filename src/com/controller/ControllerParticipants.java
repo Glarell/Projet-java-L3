@@ -10,12 +10,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+/**
+ * The type Controller participants.
+ */
 public class ControllerParticipants implements ActionListener {
 
+    /**
+     * The Modele.
+     */
     Movie modele;
 
+    /**
+     * The View.
+     */
     ViewMovie view;
 
+    /**
+     * Instantiates a new Controller participants.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerParticipants(Movie modele, ViewMovie view) {
         this.modele = modele;
         this.view = view;

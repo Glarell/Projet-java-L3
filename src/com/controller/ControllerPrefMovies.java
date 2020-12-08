@@ -9,13 +9,28 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Controller pref movies.
+ */
 public class ControllerPrefMovies implements ActionListener {
 
 
+    /**
+     * The Modele.
+     */
     ListOfMovies modele;
 
+    /**
+     * The View.
+     */
     ViewMovie view;
 
+    /**
+     * Instantiates a new Controller pref movies.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerPrefMovies(ListOfMovies modele, ViewMovie view) {
         this.modele = modele;
         this.view = view;

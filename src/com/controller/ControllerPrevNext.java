@@ -7,12 +7,27 @@ import com.view.ViewError;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Controller prev next.
+ */
 public class ControllerPrevNext implements ActionListener {
 
+    /**
+     * The Modele.
+     */
     Movie modele;
 
+    /**
+     * The View.
+     */
     View view;
 
+    /**
+     * Instantiates a new Controller prev next.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerPrevNext(Movie modele, View view) {
         this.modele = modele;
         this.view = view;

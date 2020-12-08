@@ -8,7 +8,6 @@ import com.modele.Participants;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -19,38 +18,97 @@ import java.net.URLConnection;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The type View movie.
+ */
 public class ViewMovie extends JPanel implements Observer {
 
+    /**
+     * The Modele.
+     */
     Movie modele;
+    /**
+     * The List of movies.
+     */
     public ListOfMovies listOfMovies;
 
+    /**
+     * The Research by algo.
+     */
     public JButton researchByAlgo = new JButton("Rerchercher un film");
 
+    /**
+     * The Text field recherche t.
+     */
     public JTextField textFieldRechercheT = new JTextField("Recherche par titre");
+    /**
+     * The J button recherche t.
+     */
     public JButton jButtonRechercheT = new JButton("Go");
 
+    /**
+     * The Text field recherche n.
+     */
     public JTextField textFieldRechercheN = new JTextField("Recherche par nom (acteur, ...)");
+    /**
+     * The J button recherche n.
+     */
     public JButton jButtonRechercheN = new JButton("Go");
 
+    /**
+     * The Prev.
+     */
     public JButton prev = new JButton("Précédent");
+    /**
+     * The Suiv.
+     */
     public JButton suiv = new JButton("Suivant");
+    /**
+     * The J label num film.
+     */
     public JTextField jLabelNumFilm = new JTextField("1");
 
+    /**
+     * The Titre film.
+     */
     JLabel titreFilm;
 
+    /**
+     * The Genre film.
+     */
     JLabel genreFilm;
 
+    /**
+     * The Synopsis film.
+     */
     JTextArea synopsisFilm;
 
+    /**
+     * The Affiche film.
+     */
     ImageIcon afficheFilm = new ImageIcon();
 
+    /**
+     * The Year film.
+     */
     JLabel yearFilm;
+    /**
+     * The Note film.
+     */
     JLabel noteFilm;
 
     //public ArrayList<JButton> listeParticipants = new ArrayList<>();
 
+    /**
+     * The J panel participants.
+     */
     public JPanel jPanelParticipants;
 
+    /**
+     * Instantiates a new View movie.
+     *
+     * @param modele the modele
+     */
     public ViewMovie(Movie modele) {
         listOfMovies = new ListOfMovies();
         ControllerPrefMovies controllerPrefMovies = new ControllerPrefMovies(listOfMovies, this);
@@ -93,7 +151,8 @@ public class ViewMovie extends JPanel implements Observer {
         this.add(genreFilm, c);
         this.initLabelSynopsis();
         c.gridy = 7;
-        this.add(synopsisFilm, c);
+        JScrollPane jScrollPane = new JScrollPane(synopsisFilm);
+        this.add(jScrollPane, c);
         createParcipants(jPanelParticipants);
     }
 
@@ -102,6 +161,7 @@ public class ViewMovie extends JPanel implements Observer {
         this.genreFilm.setBackground(Color.blue);
         this.genreFilm.setForeground(Color.white);
         this.genreFilm.setHorizontalAlignment(SwingConstants.CENTER);
+        this.genreFilm.setFont(new Font("", Font.PLAIN, 16));
     }
 
     private void initLabelGenres() {
@@ -119,7 +179,7 @@ public class ViewMovie extends JPanel implements Observer {
         this.synopsisFilm.setLineWrap(true);
         this.synopsisFilm.setWrapStyleWord(true);
         this.synopsisFilm.setEditable(false);
-        this.synopsisFilm.setMargin(new Insets(5,5,5,5));
+        this.synopsisFilm.setMargin(new Insets(5, 5, 5, 5));
     }
 
     private void initYearNote() {
@@ -184,10 +244,11 @@ public class ViewMovie extends JPanel implements Observer {
 
     private JPanel initAfficheFilm() {
         JPanel jPanel = new JPanel();
-       // jPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+        // jPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         jPanel.setLayout(new BorderLayout());
 
         JPanel jPanelEAST = new JPanel();
+        jPanelEAST.setBackground(Color.gray);
         //jPanelEAST.setBorder(new EmptyBorder(10, 10, 10, 10));
         jPanelEAST.setLayout(new BoxLayout(jPanelEAST, BoxLayout.Y_AXIS));
         this.initYearNote();
@@ -199,10 +260,13 @@ public class ViewMovie extends JPanel implements Observer {
         jPanelPartcipant.setBackground(Color.blue);
 
         JScrollPane jScrollPane = new JScrollPane(jPanelPartcipant);
+
+        jScrollPane.setBackground(Color.gray);
         //createParcipants(jPanelPartcipant);
 
         jPanelEAST.add(jScrollPane);
         JPanel ouest = new JPanel(new BorderLayout());
+        ouest.setBackground(Color.gray);
         JLabel pic = new JLabel(this.afficheFilm);
         ouest.add(pic, BorderLayout.CENTER);
 
@@ -231,6 +295,9 @@ public class ViewMovie extends JPanel implements Observer {
         button.addActionListener(new ControllerParticipants(modele, this));
     }
 
+    /**
+     * Update image.
+     */
     void updateImage() {
         BufferedImage image;
         try {
@@ -241,7 +308,7 @@ public class ViewMovie extends JPanel implements Observer {
             this.afficheFilm.setImage(image);
         } catch (IOException e) {
             try {
-                image = ImageIO.read(new File("D:\\Cours_IDMC\\ProjetJava\\src\\com\\image_not_found.png"));
+                image = ImageIO.read(new File("src/com/img/image_not_found.png"));
                 this.afficheFilm.setImage(image);
             } catch (IOException ioException) {
                 ioException.printStackTrace();

@@ -10,13 +10,28 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+/**
+ * The type Controller pref choose.
+ */
 public class ControllerPrefChoose implements ActionListener {
 
 
+    /**
+     * The Modele.
+     */
     ListOfMovies modele;
 
+    /**
+     * The View.
+     */
     ViewPrefMovies view;
 
+    /**
+     * Instantiates a new Controller pref choose.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerPrefChoose(ListOfMovies modele, ViewPrefMovies view) {
         this.modele = modele;
         this.view = view;
@@ -67,7 +82,6 @@ public class ControllerPrefChoose implements ActionListener {
             } else if (e.getSource() == view.prefB) {
                 modele.divideByWorst();
                 boolean active = true;
-                System.out.println(this.modele.getSize());
                 if (this.modele.getSize() <= 2) {
                     active = false;
                 }

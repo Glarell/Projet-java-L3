@@ -1,28 +1,74 @@
 package com.modele;
 
 import com.activerecord.ConnectionSingleton;
+import com.view.ViewError;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Objects;
 
+/**
+ * The type Movie.
+ */
 public class Movie extends Modele {
 
+    /**
+     * The Mov id.
+     */
     int mov_id;
+    /**
+     * The Imdb id.
+     */
     int imdb_id;
+    /**
+     * The Title.
+     */
     String title;
+    /**
+     * The Poster.
+     */
     String poster;
+    /**
+     * The Genres.
+     */
     String genres;
+    /**
+     * The Release date.
+     */
     String release_date;
+    /**
+     * The Type.
+     */
     String type;
+    /**
+     * The Synopsis.
+     */
     String synopsis;
+    /**
+     * The Rating.
+     */
     double rating;
+    /**
+     * The Year.
+     */
     int year;
+    /**
+     * The Active.
+     */
     int active;
 
+    /**
+     * The Max id.
+     */
     int maxID;
 
+    /**
+     * Instantiates a new Movie.
+     *
+     * @param id the id
+     */
     public Movie(int id) {
         majAttributsMovie(id, 0);
         try {
@@ -39,6 +85,12 @@ public class Movie extends Modele {
         }
     }
 
+    /**
+     * Maj attributs movie.
+     *
+     * @param id   the id
+     * @param diff the diff
+     */
     void majAttributsMovie(int id, int diff) {
         if (id > 0) {
             try {
@@ -83,99 +135,82 @@ public class Movie extends Modele {
         }
     }
 
+    /**
+     * Update.
+     *
+     * @param nvNum the nv num
+     * @param diff  the diff
+     */
     public void update(int nvNum, int diff) {
-        if (nvNum <= this.maxID) {
+        if (nvNum <= this.maxID && nvNum > 0) {
             majAttributsMovie(nvNum, diff);
             super.update();
+        } else {
+            new ViewError("Veuillez ressaisir un id correct !");
         }
     }
 
+    /**
+     * Gets mov id.
+     *
+     * @return the mov id
+     */
     public int getMov_id() {
         return mov_id;
     }
 
-    public void setMov_id(int mov_id) {
-        this.mov_id = mov_id;
-    }
-
-    public int getImdb_id() {
-        return imdb_id;
-    }
-
-    public void setImdb_id(int imdb_id) {
-        this.imdb_id = imdb_id;
-    }
-
+    /**
+     * Gets title.
+     *
+     * @return the title
+     */
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+    /**
+     * Gets poster.
+     *
+     * @return the poster
+     */
     public String getPoster() {
         return poster;
     }
 
-    public void setPoster(String poster) {
-        this.poster = poster;
-    }
-
+    /**
+     * Gets genres.
+     *
+     * @return the genres
+     */
     public String getGenres() {
         return genres;
     }
 
-    public void setGenres(String genres) {
-        this.genres = genres;
-    }
-
+    /**
+     * Gets release date.
+     *
+     * @return the release date
+     */
     public String getRelease_date() {
         return release_date;
     }
 
-    public void setRelease_date(String release_date) {
-        this.release_date = release_date;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
+    /**
+     * Gets synopsis.
+     *
+     * @return the synopsis
+     */
     public String getSynopsis() {
         return synopsis;
     }
 
-    public void setSynopsis(String synopsis) {
-        this.synopsis = synopsis;
-    }
-
+    /**
+     * Gets rating.
+     *
+     * @return the rating
+     */
     public double getRating() {
         return rating;
-    }
-
-    public void setRating(double rating) {
-        this.rating = rating;
-    }
-
-    public int getYear() {
-        return year;
-    }
-
-    public void setYear(int year) {
-        this.year = year;
-    }
-
-    public int getActive() {
-        return active;
-    }
-
-    public void setActive(int active) {
-        this.active = active;
     }
 
     @Override
@@ -193,5 +228,18 @@ public class Movie extends Modele {
                 ", year=" + year +
                 ", active=" + active +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return mov_id == movie.mov_id;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(mov_id);
     }
 }

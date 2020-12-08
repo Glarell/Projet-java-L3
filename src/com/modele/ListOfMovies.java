@@ -9,14 +9,29 @@ import java.sql.SQLException;
 import java.util.*;
 import java.util.Map.Entry;
 
+/**
+ * The type List of movies.
+ */
 public class ListOfMovies extends Modele {
 
+    /**
+     * The Movies.
+     */
     ArrayList<Movie> movies = new ArrayList<>();
 
+    /**
+     * The Movie a.
+     */
     Movie movieA; //2000
 
+    /**
+     * The Movie b.
+     */
     Movie movieB;
 
+    /**
+     * Instantiates a new List of movies.
+     */
     public ListOfMovies() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
@@ -32,6 +47,11 @@ public class ListOfMovies extends Modele {
         }
     }
 
+    /**
+     * Gets first element.
+     *
+     * @return the first element
+     */
     public int getFirstElement() {
         this.movieA = this.movies.get((int) (Math.random() * this.movies.size()));
         return movieA.getMov_id();
@@ -47,6 +67,9 @@ public class ListOfMovies extends Modele {
         return sortedHashMap;
     }
 
+    /**
+     * Divide by better.
+     */
     public void divideByBetter() {
         List<Entry<Integer, Double>> tmp;
         int size = this.movies.size();
@@ -58,17 +81,16 @@ public class ListOfMovies extends Modele {
             LinkedList<Entry<Integer, Double>> list = new LinkedList<>(hashMap.entrySet());
             tmp = list.subList((int) ((double) (size / 2) - 0.5), size - 1);
         }
-        Iterator<Movie> iterator1 = movies.iterator();
-        while (iterator1.hasNext()) {
-            Movie v = iterator1.next();
-            for (Entry<Integer, Double> mv2 : tmp) {
-                if (v.getMov_id() == (mv2.getKey())) {
-                    iterator1.remove();
-                }
-            }
+        ArrayList<Movie> tmpMovies = new ArrayList<>();
+        for (Entry<Integer, Double> entry : tmp) {
+            tmpMovies.add(new Movie(entry.getKey()));
         }
+        this.movies.removeAll(tmpMovies);
     }
 
+    /**
+     * Divide by worst.
+     */
     public void divideByWorst() {
         List<Entry<Integer, Double>> tmp;
         int size = this.movies.size();
@@ -80,67 +102,56 @@ public class ListOfMovies extends Modele {
             LinkedList<Entry<Integer, Double>> list = new LinkedList<>(hashMap.entrySet());
             tmp = list.subList((int) ((double) (size / 2) + 0.5), size - 1);
         }
-        Iterator<Movie> iterator1 = movies.iterator();
-        while (iterator1.hasNext()) {
-            Movie v = iterator1.next();
-            for (Entry<Integer, Double> mv2 : tmp) {
-                if (v.getMov_id() == (mv2.getKey())) {
-                    iterator1.remove();
-                }
-            }
+        ArrayList<Movie> tmpMovies = new ArrayList<>();
+        for (Entry<Integer, Double> entry : tmp) {
+            tmpMovies.add(new Movie(entry.getKey()));
         }
+        this.movies.removeAll(tmpMovies);
     }
 
     /**
-     * Idem mais avec des listes de films
+     * Cosinus sim bis hash map.
+     *
+     * @return the hash map
      */
     public HashMap<Integer, Double> cosinus_sim_Bis() {
         HashMap<Integer, Double> resultat = new HashMap<>();
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = ConnectionSingleton.getConnection();
-            ArrayList<Double> hashMap1 = new ArrayList<>();
+            HashMap<Integer, Double> hashMap1 = new HashMap<>();
 
             PreparedStatement sql1 = connection.prepareStatement("select * from tag_relevance where mov_id = ?");
             sql1.setInt(1, this.getMovieA().getMov_id()); //premier de la liste sera la reference
             ResultSet rs1 = sql1.executeQuery();
             while (rs1.next()) {
-                hashMap1.add(rs1.getDouble(3));
+                hashMap1.put(rs1.getInt(2), rs1.getDouble(3));
             }
-            for (int i = 0; i < movies.size(); i++) {
-                Movie m = movies.get(i);
+            for (Movie m : movies) {
                 if (m.getMov_id() != this.movieA.getMov_id()) {
-                    ArrayList<Double> hashMap2 = new ArrayList<>();
+                    HashMap<Integer, Double> hashMap2 = new HashMap<>();
                     PreparedStatement sql2 = connection.prepareStatement("select * from tag_relevance where mov_id = ?");
-                    sql2.setInt(1, movies.get(i).getMov_id());
+                    sql2.setInt(1, m.getMov_id());
                     ResultSet rs2 = sql2.executeQuery();
                     while (rs2.next()) {
-                        hashMap2.add(rs2.getDouble(3));
+                        hashMap2.put(rs2.getInt(2), rs2.getDouble(3));
                     }
-                    double numerateur = 0;
-                    double racineLeft = 0;
-                    double racineRight = 0;
                     if (hashMap1.size() == 0 || hashMap2.size() == 0) {
-                        resultat.put(movies.get(i).getMov_id(), (double) 0);
-                    } else if (hashMap1.size() != hashMap2.size()) {
-                        int sizeMin = hashMap1.size();
-                        if (sizeMin > hashMap2.size())
-                            sizeMin = hashMap2.size();
-                        for (int j = 0; j < sizeMin; j++) {
-                            numerateur = numerateur + hashMap1.get(j) * hashMap2.get(j);
-                            racineLeft = racineLeft + (hashMap1.get(j) * hashMap1.get(j));
-                            racineRight = racineRight + (hashMap2.get(j) * hashMap2.get(j));
-                        }
-                        double denominateur = Math.sqrt(racineLeft) * Math.sqrt(racineRight);
-                        resultat.put(movies.get(i).getMov_id(), numerateur / denominateur);
+                        resultat.put(m.getMov_id(), (double) 0);
                     } else {
-                        for (int j = 0; j < hashMap1.size(); j++) {
-                            numerateur = numerateur + hashMap1.get(j) * hashMap2.get(j);
-                            racineLeft = racineLeft + (hashMap1.get(j) * hashMap1.get(j));
-                            racineRight = racineRight + (hashMap2.get(j) * hashMap2.get(j));
+                        double numerateur = 0;
+                        double racineLeft = 0;
+                        double racineRight = 0;
+                        for (Entry<Integer, Double> entry : hashMap1.entrySet()) {
+                            Double d = hashMap2.get(entry.getKey());
+                            if (d != null) {
+                                numerateur = numerateur + (entry.getValue() * d);
+                                racineLeft = racineLeft + (entry.getValue() * entry.getValue());
+                                racineRight = racineRight + (d * d);
+                            }
                         }
                         double denominateur = Math.sqrt(racineLeft) * Math.sqrt(racineRight);
-                        resultat.put(movies.get(i).getMov_id(), numerateur / denominateur);
+                        resultat.put(m.getMov_id(), numerateur / denominateur);
                     }
                 }
             }
@@ -150,6 +161,11 @@ public class ListOfMovies extends Modele {
         return resultat;
     }
 
+    /**
+     * Least simular int.
+     *
+     * @return the int
+     */
     public int leastSimular() {
         int idWeak = minOfHashMap(cosinus_sim_Bis());
         this.movieB = new Movie(idWeak);
@@ -164,6 +180,12 @@ public class ListOfMovies extends Modele {
         return idWeak;
     }
 
+    /**
+     * Min of hash map integer.
+     *
+     * @param hashMap the hash map
+     * @return the integer
+     */
     public Integer minOfHashMap(HashMap<Integer, Double> hashMap) {
         Set<Entry<Integer, Double>> iterator = hashMap.entrySet();
         double minD = 1;
@@ -177,6 +199,11 @@ public class ListOfMovies extends Modele {
         return id;
     }
 
+    /**
+     * Gets size.
+     *
+     * @return the size
+     */
     public int getSize() {
         return this.movies.size();
     }
@@ -193,10 +220,20 @@ public class ListOfMovies extends Modele {
                 '}';
     }
 
+    /**
+     * Gets movie a.
+     *
+     * @return the movie a
+     */
     public Movie getMovieA() {
         return movieA;
     }
 
+    /**
+     * Gets movie b.
+     *
+     * @return the movie b
+     */
     public Movie getMovieB() {
         return movieB;
     }

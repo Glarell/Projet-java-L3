@@ -6,7 +6,6 @@ import com.modele.Personnage;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -15,12 +14,26 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+/**
+ * The type View participant.
+ */
 public class ViewParticipant extends JPanel implements Observer {
 
+    /**
+     * The Personnage.
+     */
     Personnage personnage;
 
+    /**
+     * The Nom personne.
+     */
     JLabel nomPersonne;
 
+    /**
+     * Instantiates a new View participant.
+     *
+     * @param pers the pers
+     */
     public ViewParticipant(Personnage pers) {
         personnage = pers;
         this.setLayout(new BorderLayout());
@@ -52,7 +65,7 @@ public class ViewParticipant extends JPanel implements Observer {
                         image = ImageIO.read(url1);
                         temp.setIcon(new ImageIcon(image));
                     } catch (Exception e) {
-                        temp.setIcon(new ImageIcon("D:\\Cours_IDMC\\ProjetJava\\src\\com\\image_not_found.png"));
+                        temp.setIcon(new ImageIcon("src/com/img/image_not_found.png"));
                     }
                     Movie movie = new Movie(Integer.parseInt(arrayList.get(4)));
                     ControllerParticipantFilm controllerParticipantFilm = new ControllerParticipantFilm(movie, temp);

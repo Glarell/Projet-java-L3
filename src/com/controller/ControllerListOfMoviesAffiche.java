@@ -9,12 +9,27 @@ import javax.swing.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+/**
+ * The type Controller list of movies affiche.
+ */
 public class ControllerListOfMoviesAffiche implements MouseListener {
 
+    /**
+     * The Modele.
+     */
     Movie modele;
 
+    /**
+     * The View.
+     */
     JLabel view;
 
+    /**
+     * Instantiates a new Controller list of movies affiche.
+     *
+     * @param modele the modele
+     * @param view   the view
+     */
     public ControllerListOfMoviesAffiche(Movie modele, JLabel view) {
         this.modele = modele;
         this.view = view;
@@ -30,9 +45,9 @@ public class ControllerListOfMoviesAffiche implements MouseListener {
         fenetre.getViewMovie().prev.addActionListener(controllerNext);
         ControllerJTextFieldByID controllerJTextFieldByID = new ControllerJTextFieldByID(modele, viewMovie);
         viewMovie.jLabelNumFilm.addKeyListener(controllerJTextFieldByID);
-        ControllerOkTitle controllerOkTitle = new ControllerOkTitle(new ListOfMoviesSearch(),viewMovie);
+        ControllerOkTitle controllerOkTitle = new ControllerOkTitle(new ListOfMoviesSearch(), viewMovie);
         viewMovie.jButtonRechercheT.addActionListener(controllerOkTitle);
-        ControllerOkAll controllerOkAll = new ControllerOkAll(new ListOfMoviesSearch(),viewMovie);
+        ControllerOkAll controllerOkAll = new ControllerOkAll(new ListOfMoviesSearch(), viewMovie);
         viewMovie.jButtonRechercheN.addActionListener(controllerOkAll);
         fenetre.setContentPane(viewMovie);
         modele.update();
