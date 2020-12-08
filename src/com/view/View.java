@@ -2,7 +2,12 @@ package com.view;
 
 import com.modele.Movie;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.html.ImageView;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -30,6 +35,13 @@ public class View extends JFrame implements Observer {
         viewMovie = new ViewMovie(modele);
         this.setContentPane(viewMovie);
         modele.addObserver(this);
+        try {
+            BufferedImage image = ImageIO.read(new File("src/com/img/iMovie.png"));
+            this.setIconImage(image);
+            this.setTitle("MovieLens");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocation(200, 200);
         pack();
