@@ -97,8 +97,6 @@ public class ViewMovie extends JPanel implements Observer {
      */
     JLabel noteFilm;
 
-    //public ArrayList<JButton> listeParticipants = new ArrayList<>();
-
     /**
      * The J panel participants.
      */
@@ -206,12 +204,10 @@ public class ViewMovie extends JPanel implements Observer {
         jPanel.setLayout(new BorderLayout());
         jPanel.add(textFieldRechercheT, BorderLayout.CENTER);
         jPanel.add(jButtonRechercheT, BorderLayout.EAST);
-        //jButtonRechercheT.addActionListener(new ControllerRechercheTitre(listOfMovies,this));
         return jPanel;
     }
 
     private JPanel initRechercheN() {
-        //colors
         this.jButtonRechercheN.setBackground(Color.black);
         this.jButtonRechercheN.setForeground(Color.white);
         JPanel jPanel = new JPanel();
@@ -223,7 +219,6 @@ public class ViewMovie extends JPanel implements Observer {
     }
 
     private JPanel initPrevSuiv() {
-        //colors
         this.prev.setBackground(Color.black);
         this.suiv.setBackground(Color.black);
         this.prev.setForeground(Color.white);
@@ -244,25 +239,21 @@ public class ViewMovie extends JPanel implements Observer {
 
     private JPanel initAfficheFilm() {
         JPanel jPanel = new JPanel();
-        // jPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
         jPanel.setLayout(new BorderLayout());
 
         JPanel jPanelEAST = new JPanel();
         jPanelEAST.setBackground(Color.gray);
-        //jPanelEAST.setBorder(new EmptyBorder(10, 10, 10, 10));
         jPanelEAST.setLayout(new BoxLayout(jPanelEAST, BoxLayout.Y_AXIS));
         this.initYearNote();
         jPanelEAST.add(this.yearFilm);
         jPanelEAST.add(this.noteFilm);
 
         JPanel jPanelPartcipant = new JPanel(new GridBagLayout());
-        //jPanelPartcipant.setLayout(new BoxLayout(jPanelPartcipant, BoxLayout.Y_AXIS));
         jPanelPartcipant.setBackground(Color.blue);
 
         JScrollPane jScrollPane = new JScrollPane(jPanelPartcipant);
 
         jScrollPane.setBackground(Color.gray);
-        //createParcipants(jPanelPartcipant);
 
         jPanelEAST.add(jScrollPane);
         JPanel ouest = new JPanel(new BorderLayout());

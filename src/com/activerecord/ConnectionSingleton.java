@@ -32,7 +32,7 @@ public class ConnectionSingleton {
             System.out.println("Connection reussi");
         } catch (SQLException e) {
             System.out.println("Connection non reusssi");
-            System.out.println(e);
+            System.out.println(e + "\nVérifiez si l'url est bonne ex: jdbc:mysql://127.0.0.1:3306/movielens ou si la library mysql est bien importé");
         }
     }
 

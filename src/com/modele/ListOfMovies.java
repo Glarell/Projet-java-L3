@@ -10,27 +10,27 @@ import java.util.*;
 import java.util.Map.Entry;
 
 /**
- * The type List of movies.
+ * Cette classe correspond au traitement de la liste de tous les films avec algorithme
  */
 public class ListOfMovies extends Modele {
 
     /**
      * The Movies.
      */
-    ArrayList<Movie> movies = new ArrayList<>();
+    ArrayList<Movie> movies = new ArrayList<>(); // Liste complete des films
 
     /**
      * The Movie a.
      */
-    Movie movieA; //2000
+    Movie movieA; // Film de gauche
 
     /**
      * The Movie b.
      */
-    Movie movieB;
+    Movie movieB; // Film de droite
 
     /**
-     * Instantiates a new List of movies.
+     * Instancie la liste de Films
      */
     public ListOfMovies() {
         try {
@@ -49,7 +49,7 @@ public class ListOfMovies extends Modele {
 
     /**
      * Gets first element.
-     *
+     * Permet d'avoir l'element A = film gauche
      * @return the first element
      */
     public int getFirstElement() {
@@ -57,6 +57,11 @@ public class ListOfMovies extends Modele {
         return movieA.getMov_id();
     }
 
+    /**
+     * Permet de trier la hashmap par similurarité (ordre croissant)
+     * @param map HashMap non trié
+     * @return HashMap trié par valeur ordre croissant
+     */
     private static HashMap<Integer, Double> sortByValues(HashMap<Integer, Double> map) {
         List<Entry<Integer, Double>> list = new LinkedList<>(map.entrySet());
         list.sort(Entry.comparingByValue());
@@ -68,7 +73,7 @@ public class ListOfMovies extends Modele {
     }
 
     /**
-     * Divide by better.
+     * Supprime les éléments les moins proches de A
      */
     public void divideByBetter() {
         List<Entry<Integer, Double>> tmp;
@@ -85,11 +90,11 @@ public class ListOfMovies extends Modele {
         for (Entry<Integer, Double> entry : tmp) {
             tmpMovies.add(new Movie(entry.getKey()));
         }
-        this.movies.removeAll(tmpMovies);
+        this.movies.removeAll(tmpMovies); // suppression par liste
     }
 
     /**
-     * Divide by worst.
+     * Supprime les éléments les moins proches de B
      */
     public void divideByWorst() {
         List<Entry<Integer, Double>> tmp;
@@ -106,13 +111,13 @@ public class ListOfMovies extends Modele {
         for (Entry<Integer, Double> entry : tmp) {
             tmpMovies.add(new Movie(entry.getKey()));
         }
-        this.movies.removeAll(tmpMovies);
+        this.movies.removeAll(tmpMovies); // suppression par liste
     }
 
     /**
-     * Cosinus sim bis hash map.
+     * Algorithme sur la similarité
      *
-     * @return the hash map
+     * @return the hash map, HashMap<id_mov, taux de simularité par rapport a A>
      */
     public HashMap<Integer, Double> cosinus_sim_Bis() {
         HashMap<Integer, Double> resultat = new HashMap<>();
@@ -122,12 +127,12 @@ public class ListOfMovies extends Modele {
             HashMap<Integer, Double> hashMap1 = new HashMap<>();
 
             PreparedStatement sql1 = connection.prepareStatement("select * from tag_relevance where mov_id = ?");
-            sql1.setInt(1, this.getMovieA().getMov_id()); //premier de la liste sera la reference
+            sql1.setInt(1, this.getMovieA().getMov_id()); //premier de la liste sera la reference = film de droite (A)
             ResultSet rs1 = sql1.executeQuery();
             while (rs1.next()) {
                 hashMap1.put(rs1.getInt(2), rs1.getDouble(3));
             }
-            for (Movie m : movies) {
+            for (Movie m : movies) { // on parcours tous les films pour calculer leur simularité avec le film A
                 if (m.getMov_id() != this.movieA.getMov_id()) {
                     HashMap<Integer, Double> hashMap2 = new HashMap<>();
                     PreparedStatement sql2 = connection.prepareStatement("select * from tag_relevance where mov_id = ?");
@@ -136,9 +141,9 @@ public class ListOfMovies extends Modele {
                     while (rs2.next()) {
                         hashMap2.put(rs2.getInt(2), rs2.getDouble(3));
                     }
-                    if (hashMap1.size() == 0 || hashMap2.size() == 0) {
+                    if (hashMap1.size() == 0 || hashMap2.size() == 0) { // si une des deux listes est égale à 0 on attribue 0 comme simularité
                         resultat.put(m.getMov_id(), (double) 0);
-                    } else {
+                    } else { // sinon on calcule la similarité entre les memes tags
                         double numerateur = 0;
                         double racineLeft = 0;
                         double racineRight = 0;
@@ -162,9 +167,9 @@ public class ListOfMovies extends Modele {
     }
 
     /**
-     * Least simular int.
+     * permet d'avoir l'id du film ayant le moins de simularité avec le film A
      *
-     * @return the int
+     * @return the int of the movie B
      */
     public int leastSimular() {
         int idWeak = minOfHashMap(cosinus_sim_Bis());

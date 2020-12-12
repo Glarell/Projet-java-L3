@@ -4,7 +4,6 @@ import com.modele.Movie;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.text.html.ImageView;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
